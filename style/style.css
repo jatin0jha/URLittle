@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #161616;
+    margin: 0;
+    display: flex;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+form {
+    background-color: #0000006d;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin-bottom: 20px;
+    border: 1px solid rgb(54, 54, 54);
+    backdrop-filter: blur(10px);
+}
+
+input,
+button {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 10px;
+    color: white;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    cursor: pointer;
+    padding: 7px 30px;
+    width: max-content;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.output-grid {
+    padding: 10px;
+    background-color: #0000006d;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    margin-bottom: 20px;
+    border: 1px solid rgb(54, 54, 54);
+    backdrop-filter: blur(10px);
+}
+
+.shortened-link {
+    margin-top: 15px;
+    word-break: break-all;
+}
+
+.output-grid div {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.output-grid div a {
+    overflow-y: scroll;
+    margin-right: 10px;
+}
+
+.output-grid div button {
+    background-color: rgb(55, 55, 55);
+    border: none;
+    padding: 4px 18px;
+    border-radius: 9px;
+}
+
+.output-grid div button:hover {
+    background-color: rgb(27, 27, 27);
+    border: none;
+    padding: 4px 18px;
+    border-radius: 9px;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f100;
+}
+::-webkit-scrollbar-thumb {
+    background: #a9a9a9;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
