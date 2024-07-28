@@ -4,7 +4,7 @@
 
 Welcome to the URL Shortener project! This web application allows users to easily shorten long URLs and share them with a simple, unique code. The shortened URL can then be used to redirect to the original URL. This project uses Google Sheets as a backend to store and manage the shortened URLs.
 
-![URL Shortener Screenshot](screenshot.png)
+![URL Shortener Screenshot](Screenshot.png)
 
 ## Features
 
