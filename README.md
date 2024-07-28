@@ -33,15 +33,60 @@ To run this project, you need a basic understanding of HTML, CSS, and JavaScript
 
 3. Deploy your Google Apps Script to handle form submissions and data retrieval. Use the following script as a reference:
 
-    ```javascript
-    // Google Apps Script code
+    ```javascriptconst
+    sheetName = 'Sheet1';
+    const scriptProp = PropertiesService.getScriptProperties();
+    
+    function initialSetup() {
+      const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+      scriptProp.setProperty('key', activeSpreadsheet.getId());
+    }
+    
+    function doPost(e) {
+      const lock = LockService.getScriptLock();
+      lock.tryLock(10000);
+    
+      try {
+        const doc = SpreadsheetApp.openById(scriptProp.getProperty('key'));
+        const sheet = doc.getSheetByName(sheetName);
+
+    const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    const nextRow = sheet.getLastRow() + 1;
+
+    const newRow = headers.map(function(header) {
+      return header === 'Date' ? new Date() : e.parameter[header];
+    });
+
+    sheet.getRange(nextRow, 1, 1, newRow.length).setValues([newRow]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ 'result': 'success', 'row': nextRow }))
+      .setMimeType(ContentService.MimeType.JSON);
+      } catch (e) {
+        return ContentService
+          .createTextOutput(JSON.stringify({ 'result': 'error', 'error': e }))
+          .setMimeType(ContentService.MimeType.JSON);
+      } finally {
+        lock.releaseLock();
+      }
+    }
+    
     function doGet() {
-      // Your code here
+      try {
+        const doc = SpreadsheetApp.openById(scriptProp.getProperty('key'));
+        const sheet = doc.getSheetByName(sheetName);
+        const rows = sheet.getDataRange().getValues();
+    
+        return ContentService
+          .createTextOutput(JSON.stringify({ 'result': 'success', 'data': rows }))
+          .setMimeType(ContentService.MimeType.JSON);
+      } catch (e) {
+        return ContentService
+          .createTextOutput(JSON.stringify({ 'result': 'error', 'error': e }))
+          .setMimeType(ContentService.MimeType.JSON);
+      }
     }
 
-    function doPost(e) {
-      // Your code here
-    }
     ```
 
 4. Update the form action URL in `index.html` to your deployed Google Apps Script URL.
