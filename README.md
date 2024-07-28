@@ -103,5 +103,49 @@ To run this project, you need a basic understanding of HTML, CSS, and JavaScript
 
 ## File Structure
 
+- **index.html:** The main HTML file containing the form and output display.
+- **styles.css:** The CSS file for styling the application.
+- **script.js:** The JavaScript file containing the main logic for URL shortening and local storage management.
+- **README.md:** This file.
+- **screenshot.png:** A screenshot of the application.
+
+## Contributing
+
+We welcome contributions from the community! To contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature/your-feature-name`.
+3. Make your changes and commit them: `git commit -m 'Add some feature'`.
+4. Push to the branch: `git push origin feature/your-feature-name`.
+5. Submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For questions or feedback, please contact [your-email@example.com](mailto:your-email@example.com).
+
+## Keywords
+
+- URL Shortener
+- URL Redirection
+- Google Sheets Integration
+- Web Application
+- JavaScript
+- HTML
+- CSS
+
+## Acknowledgements
+
+- [Google Apps Script](https://developers.google.com/apps-script) for backend integration.
+- [MDN Web Docs](https://developer.mozilla.org/) for web development resources.
+- [Stack Overflow](https://stackoverflow.com/) for community support and solutions.
+
+---
+
+By providing a detailed and SEO-optimized README file, you can help users understand your project better and improve its visibility in search engine results. If you have any questions or need further assistance, feel free to ask!
+
 
 Just a URL shortener
