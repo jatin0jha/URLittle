@@ -1,5 +1,4 @@
 # URLittle
-### URL Shortener
 
 ## Overview
 
