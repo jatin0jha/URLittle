@@ -95,24 +95,70 @@
             color: white;
         }
 
+        form input {
+            border: 1px solid rgba(255, 255, 255, 0.311);
+            outline: none;
+        }
+
         button {
             background-color: #252525;
             color: #fff;
             cursor: pointer;
-            padding: 7px 30px;
+            padding: 7px;
             width: max-content;
+            display: flex;
+            align-items: center;
         }
 
-        p{
-            margin: 0;
+        form button p {
+            margin: 0 10px;
         }
 
         button:hover {
             background-color: #45a049;
         }
-        
-        #output{
+
+        form button img {
+            filter: invert(1);
+        }
+
+        #output {
             margin: 0 10px;
+        }
+
+        .btn-line {
+            height: 15px;
+            width: 1px;
+            background-color: white;
+        }
+
+        @media (max-width:700px) {
+
+            .main-grid {
+                grid-template-columns: auto;
+            }
+
+            .title-logo {
+                margin: 0;
+            }
+
+            form {
+                margin: 0;
+            }
+
+            .savedUrl-box {
+                height: calc(60vh - 20px);
+            }
+
+            .savedurls {
+                height: calc(60vh - 70px);
+            }
+
+            .savedUrl {
+                height: 60vh;
+                position: sticky;
+                bottom: 0;
+            }
         }
     </style>
     <script src="script/functionality.js"></script>
@@ -126,7 +172,11 @@
                 <h1 class="title-logo">URLittle</h1>
                 <input name="URL" type="url" placeholder="https://example.com...." required>
                 <button type="submit">
+                    <img src="https://www.svgrepo.com/show/513016/url-1424.svg" height="15px" alt="">
                     <p>Shorten</p>
+                    <div class="btn-line"></div>
+                    <img src="https://www.svgrepo.com/show/511356/arrow-down-338.svg" height="10px" style="margin: 5px;"
+                        alt="">
                 </button>
                 <div id="shortened-link" class="shortened-link"></div>
             </form>
