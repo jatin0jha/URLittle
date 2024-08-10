@@ -15,6 +15,20 @@ Welcome to the URL Shortener project! This web application allows users to easil
 - **Domain Name Display:** Display the domain name of the original URL.
 - **Google Sheets Integration:** Utilizes Google Sheets to store and retrieve URL data.
 
+## Get it on your service
+
+Getting URLittle on your platform
+    ```
+        <script src="script/functionality.js"></script>
+        <form method="POST" id="my-form"
+            action="https://script.google.com/macros/s/AKfycbxP4O_-zRrbMkU1kVnla0o7Lx3AMd2cENbtOITQ9f4VkdH35QPdaV3W-wkaXDofR1-SOw/exec">
+            <h2>URL Shorterner</h2>
+            <input name="URL" type="url" placeholder="https://example.com...." required>
+            <button type="submit"><p>Shorten</p></button>
+            <div id="shortened-link" class="shortened-link"></div>
+        </form>
+    ```
+
 ## Getting Started
 
 ### Prerequisites
