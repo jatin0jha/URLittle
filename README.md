@@ -17,8 +17,8 @@ Welcome to the URL Shortener project! This web application allows users to easil
 
 ## Get it on your service
 
-Getting URLittle on your platform
-    ```
+1. Copy this code
+    ```HTML
         <script src="script/functionality.js"></script>
         <form method="POST" id="my-form"
             action="https://script.google.com/macros/s/AKfycbxP4O_-zRrbMkU1kVnla0o7Lx3AMd2cENbtOITQ9f4VkdH35QPdaV3W-wkaXDofR1-SOw/exec">
