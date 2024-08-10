@@ -19,7 +19,7 @@ Welcome to the URL Shortener project! This web application allows users to easil
 
 1. Copy this code
     ```HTML
-        <script src="script/functionality.js"></script>
+        <script src="https://jatinjha.me/URLittle/script/functionality.js"></script>
         <form method="POST" id="my-form"
             action="https://script.google.com/macros/s/AKfycbxP4O_-zRrbMkU1kVnla0o7Lx3AMd2cENbtOITQ9f4VkdH35QPdaV3W-wkaXDofR1-SOw/exec">
             <h2>URL Shorterner</h2>
