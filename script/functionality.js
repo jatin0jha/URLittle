@@ -2,33 +2,18 @@ window.addEventListener("load", function () {
     const form = document.getElementById('my-form');
     const output = document.getElementById('output');
     const shortenedLink = document.getElementById('shortened-link');
+    const loadingScreen = document.querySelector('.loading-screen');
+    const bodyContent = document.querySelector('body');
 
-    form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const data = new FormData(form);
-        const action = e.target.action;
-        const code = generateUniqueCode();
-        data.append("Code", code);
+    function showLoadingScreen() {
+        loadingScreen.style.display = 'flex';  // Show loading screen
+        bodyContent.style.display = 'none';    // Hide body content
+    }
 
-        fetch(action, {
-            method: 'POST',
-            body: data,
-        })
-        .then(response => response.json())
-        .then(json => {
-            if (json.result === 'success') {
-                const shortenedURL = window.location.href.split('#')[0] + "#" + code;
-                shortenedLink.textContent = "Shortened URL: " + shortenedURL;
-                saveToLocalStorage(data.get("URL"), code);
-                displayUserURLs();
-            } else {
-                shortenedLink.textContent = 'Error: ' + json.error;
-            }
-        })
-        .catch(error => {
-            shortenedLink.textContent = 'Error: ' + error;
-        });
-    });
+    function hideLoadingScreen() {
+        loadingScreen.style.display = 'none';  // Hide loading screen
+        bodyContent.style.display = 'block';   // Show body content
+    }
 
     function generateUniqueCode() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -84,6 +69,7 @@ window.addEventListener("load", function () {
 
     function redirectToOriginalURL(code) {
         const url = 'https://script.google.com/macros/s/AKfycbxP4O_-zRrbMkU1kVnla0o7Lx3AMd2cENbtOITQ9f4VkdH35QPdaV3W-wkaXDofR1-SOw/exec';
+        
         fetch(url)
         .then(response => response.json())
         .then(json => {
@@ -104,12 +90,44 @@ window.addEventListener("load", function () {
         });
     }
 
-    // Fetch and display the user's URLs when the page loads
-    displayUserURLs();
-
     // Redirect if there's a code in the URL hash
     const hash = window.location.hash.substring(1);
     if (hash) {
-        redirectToOriginalURL(hash);
+        showLoadingScreen();  // Display the loading screen immediately
+        redirectToOriginalURL(hash);  // Handle the redirection
+    } else {
+        hideLoadingScreen();  // Hide the loading screen if no hash
+        displayUserURLs();    // Display the user's URLs on page load
     }
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const data = new FormData(form);
+        const action = e.target.action;
+        const code = generateUniqueCode();
+        data.append("Code", code);
+
+        showLoadingScreen();  // Show loading screen while processing
+
+        fetch(action, {
+            method: 'POST',
+            body: data,
+        })
+        .then(response => response.json())
+        .then(json => {
+            hideLoadingScreen();  // Hide loading screen when done
+            if (json.result === 'success') {
+                const shortenedURL = window.location.href.split('#')[0] + "#" + code;
+                shortenedLink.textContent = "Shortened URL: " + shortenedURL;
+                saveToLocalStorage(data.get("URL"), code);
+                displayUserURLs();
+            } else {
+                shortenedLink.textContent = 'Error: ' + json.error;
+            }
+        })
+        .catch(error => {
+            hideLoadingScreen();  // Hide loading screen if error occurs
+            shortenedLink.textContent = 'Error: ' + error;
+        });
+    });
 });
