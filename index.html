@@ -22,6 +22,8 @@
 
         .savedUrl {
             height: 100vh;
+            position: sticky;
+            top: 0;
         }
 
         .bubbles {
@@ -65,6 +67,8 @@
             height: calc(100vh - 70px);
             overflow-y: scroll;
             overflow-x: hidden;
+            position: sticky;
+            top: 0;
         }
 
         h2 {
@@ -100,6 +104,12 @@
             outline: none;
         }
 
+        form input:focus {
+            border: 1px solid rgb(160, 255, 236);
+            box-shadow: 0px 0px 100px rgba(160, 255, 236, 0.516);
+        }
+
+
         button {
             background-color: #252525;
             color: #fff;
@@ -110,12 +120,58 @@
             align-items: center;
         }
 
+        .button {
+            background-color: #252525;
+            color: #fff;
+            cursor: pointer;
+            padding: 7px;
+            width: max-content;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 15px;
+            color: white;
+        }
+
+        .button:hover {
+            background-color: rgb(160, 255, 236);
+            box-shadow: 0px 0px 100px rgb(160, 255, 236);
+            color: black;
+        }
+
+        .button img {
+            filter: invert(0.5);
+        }
+
+        #downloadLink {
+            display: none;
+            height: min-content;
+            margin: 10px;
+        }
+
+        #qrcode img {
+            border-radius: 10px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 20px;
+        }
+
         form button p {
             margin: 0 10px;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: rgb(160, 255, 236);
+            box-shadow: 0px 0px 100px rgb(160, 255, 236);
+            color: black;
+        }
+
+        button:hover+.btn-line {
+            background-color: black;
         }
 
         form button img {
@@ -156,13 +212,70 @@
 
             .savedUrl {
                 height: 60vh;
-                position: sticky;
-                bottom: 0;
             }
+        }
+
+        .loading-screen {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+        }
+
+        .loading-screen {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        body {
+            display: block;
+            /* Default visibility */
+        }
+
+        .hidden {
+            display: none;
+            /* Utility class to hide elements */
         }
     </style>
     <script src="script/functionality.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <script>
+        function generateQRCode() {
+            const url = document.getElementById('urlInput').value;
+            const qrCodeContainer = document.getElementById('qrcode');
+            qrCodeContainer.innerHTML = ""; // Clear the previous QR code
+
+            // Create the QR code
+            const qrCode = new QRCode(qrCodeContainer, {
+                text: url,
+                width: 256,
+                height: 256,
+            });
+
+            // Wait a moment for the QR code to render, then create the download link
+            setTimeout(() => {
+                const canvas = qrCodeContainer.querySelector('canvas');
+                const downloadLink = document.getElementById('downloadLink');
+                const qrCodeDataUrl = canvas.toDataURL('image/png');
+                downloadLink.href = qrCodeDataUrl;
+                downloadLink.style.display = 'inline-block'; // Show the download link
+            }, 500); // Adjust the delay as needed
+        }
+    </script>
 </head>
+<div class="loading-screen"><img
+        src="https://cdn.dribbble.com/users/1373613/screenshots/5385718/media/30cede328265c92d61aa211591e70b62.gif"
+        height="100px" alt=""></div>
 
 <body>
     <div class="main-grid">
@@ -180,6 +293,20 @@
                 </button>
                 <div id="shortened-link" class="shortened-link"></div>
             </form>
+
+
+            <form id="qrCodeContainer">
+                <h1 style="font-weight: 200;">QR Code Generator</h1>
+                <input type="text" id="urlInput" placeholder="Enter URL here" />
+                <a class="button" onclick="generateQRCode()">Generate QR Code</a>
+                <div style="display: flex;">
+                    <div id="qrcode"></div>
+                    <a id="downloadLink" class="button" download="qrcode.png"><img
+                            src="https://www.svgrepo.com/show/527693/download-minimalistic.svg" height="30px"
+                            alt=""></a>
+                </div>
+            </form>
+
         </div>
         <div class="savedUrl">
             <div class="savedUrl-box">
