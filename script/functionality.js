@@ -3,16 +3,16 @@ window.addEventListener("load", function () {
     const output = document.getElementById('output');
     const shortenedLink = document.getElementById('shortened-link');
     const loadingScreen = document.querySelector('.loading-screen');
-    const bodyContent = document.querySelector('body');
+    const mainShortener = document.querySelector('.main-shortener');
 
     function showLoadingScreen() {
         loadingScreen.style.display = 'flex';  // Show loading screen
-        bodyContent.style.display = 'none';    // Hide body content
+        mainShortener.style.display = 'none';  // Hide main content
     }
 
     function hideLoadingScreen() {
         loadingScreen.style.display = 'none';  // Hide loading screen
-        bodyContent.style.display = 'block';   // Show body content
+        mainShortener.style.display = 'block'; // Show main content
     }
 
     function generateUniqueCode() {
