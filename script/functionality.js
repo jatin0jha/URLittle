@@ -68,7 +68,7 @@ window.addEventListener("load", function () {
     }
 
     function redirectToOriginalURL(code) {
-        const url = 'https://script.google.com/macros/s/AKfycbxP4O_-zRrbMkU1kVnla0o7Lx3AMd2cENbtOITQ9f4VkdH35QPdaV3W-wkaXDofR1-SOw/exec';
+        const url = 'https://script.google.com/macros/s/AKfycbxc2luy0Ei5W9KLbx-wQnydsazcZiu64nMgGNYCGPjtD5nhwau51YjihY6zgT-g8raxfQ/exec';
         
         fetch(url)
         .then(response => response.json())
