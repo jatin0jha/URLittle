@@ -147,10 +147,9 @@
             filter: invert(0.5);
         }
 
-        #downloadLink {
+        #downloadLink, #downloadSvgLink {
             display: none;
             height: min-content;
-            margin: 10px;
         }
 
         #qrcode img {
@@ -247,9 +246,13 @@
     </style>
     <script src="script/functionality.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
+        let currentUrl = '';
+        
         function generateQRCode() {
             const url = document.getElementById('urlInput').value;
+            currentUrl = url;
             const qrCodeContainer = document.getElementById('qrcode');
             qrCodeContainer.innerHTML = ""; // Clear the previous QR code
 
@@ -260,14 +263,64 @@
                 height: 256,
             });
 
-            // Wait a moment for the QR code to render, then create the download link
+            // Wait a moment for the QR code to render, then create the download links
             setTimeout(() => {
                 const canvas = qrCodeContainer.querySelector('canvas');
                 const downloadLink = document.getElementById('downloadLink');
+                const downloadSvgLink = document.getElementById('downloadSvgLink');
                 const qrCodeDataUrl = canvas.toDataURL('image/png');
                 downloadLink.href = qrCodeDataUrl;
-                downloadLink.style.display = 'inline-block'; // Show the download link
+                downloadLink.style.display = 'inline-block'; // Show the PNG download link
+                downloadSvgLink.style.display = 'inline-block'; // Show the SVG download link
             }, 500); // Adjust the delay as needed
+        }
+
+        function downloadSVG() {
+            if (!currentUrl) {
+                alert('Please generate a QR code first!');
+                return;
+            }
+
+            // Get the canvas and extract the QR code data
+            const canvas = document.getElementById('qrcode').querySelector('canvas');
+            const ctx = canvas.getContext('2d');
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            
+            // Determine module size (QR code cell size)
+            const moduleSize = 10; // Size of each QR module in SVG
+            const qrSize = canvas.width;
+            const modules = qrSize / (256 / 33); // Approximate modules per side
+            
+            // Create SVG
+            let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}" viewBox="0 0 ${canvas.width} ${canvas.height}">`;
+            svg += `<rect width="100%" height="100%" fill="white"/>`;
+            
+            // Sample the canvas to create SVG rectangles
+            const cellSize = canvas.width / 33; // Approximate cell size
+            for (let y = 0; y < 33; y++) {
+                for (let x = 0; x < 33; x++) {
+                    const px = Math.floor(x * cellSize + cellSize / 2);
+                    const py = Math.floor(y * cellSize + cellSize / 2);
+                    const index = (py * canvas.width + px) * 4;
+                    const brightness = (data[index] + data[index + 1] + data[index + 2]) / 3;
+                    
+                    if (brightness < 128) { // Dark module
+                        svg += `<rect x="${x * cellSize}" y="${y * cellSize}" width="${cellSize}" height="${cellSize}" fill="black"/>`;
+                    }
+                }
+            }
+            
+            svg += '</svg>';
+            
+            // Create download link
+            const blob = new Blob([svg], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'qrcode.svg';
+            a.click();
+            URL.revokeObjectURL(url);
         }
     </script>
 </head>
@@ -301,9 +354,16 @@
                     <a class="button" onclick="generateQRCode()">Generate QR Code</a>
                     <div style="display: flex;">
                         <div id="qrcode"></div>
-                        <a id="downloadLink" class="button" download="qrcode.png"><img
-                                src="https://www.svgrepo.com/show/527693/download-minimalistic.svg" height="30px"
-                                alt=""></a>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <a id="downloadLink" class="button" download="qrcode.png" title="Download PNG">
+                                <img src="https://www.svgrepo.com/show/527693/download-minimalistic.svg" height="30px" alt="">
+                                <p style="margin: 0 0 0 10px;">PNG</p>
+                            </a>
+                            <a id="downloadSvgLink" class="button" onclick="downloadSVG()" title="Download SVG">
+                                <img src="https://www.svgrepo.com/show/527693/download-minimalistic.svg" height="30px" alt="">
+                                <p style="margin: 0 0 0 10px;">SVG</p>
+                            </a>
+                        </div>
                     </div>
                 </form>
 
